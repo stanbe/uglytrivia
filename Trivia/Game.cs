@@ -33,34 +33,15 @@ namespace Trivia
             if (currentPlayer.InPenaltyBox)
             {
                 currentPlayer.SetGetOutOfPenaltyBox(roll);
-                if (roll % 2 != 0)
-                {
-                    screen.PrintGettingOutOfPenaltyBox(currentPlayer);
-                    AdvancePlayerAndAskQuestion(roll);
-                }
-                else
-                {
-                    screen.PrintNotGettingOutOfPenaltyBox(currentPlayer);
-                }
+                screen.PrintWhetherPlayerIsGettingOutOfPenaltyBox(currentPlayer);
             }
-            else
+            if (currentPlayer.InPenaltyBox && !currentPlayer.IsGettingOUtOfPenaltyBox)
             {
-                AdvancePlayerAndAskQuestion(roll);
+                return;
             }
 
-        }
-
-        private void AdvancePlayerAndAskQuestion(int roll)
-        {
-            var currentPlayer = playerPool.CurrentPlayer;
             currentPlayer.AddPlace(roll);
-
             screen.PrintNewLocationInfo(currentPlayer, CurrentCategory());
-            AskQuestion();
-        }
-
-        private void AskQuestion()
-        {
             var question = questionPool.GetQuestion(CurrentCategory());
             screen.PrintQuestion(question);
         }
@@ -93,7 +74,7 @@ namespace Trivia
             currentPlayer.AddPurse();
 
             screen.PrintCorrectAnswer(currentPlayer);
-           
+
             bool notWinner = !currentPlayer.DidPlayerWin();
             playerPool.NextPlayer();
 
