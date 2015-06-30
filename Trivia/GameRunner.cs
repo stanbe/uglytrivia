@@ -33,6 +33,9 @@ namespace Trivia
                 {
                     notAWinner = game.WasCorrectlyAnswered();
                 }
+
+                game.NextPlayer();
+
             } while (notAWinner);
         }
     }

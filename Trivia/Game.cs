@@ -54,14 +54,11 @@ namespace Trivia
             var currentPlayer = playerPool.CurrentPlayer;
             if (currentPlayer.IsStuckInPenaltyBox)
             {
-                playerPool.NextPlayer();
                 return true;
             }
             currentPlayer.AddPurse();
 
             screen.PrintCorrectAnswer(currentPlayer);
-
-            playerPool.NextPlayer();
 
             return !currentPlayer.DidPlayerWin();
         }
@@ -71,8 +68,12 @@ namespace Trivia
             screen.PrintWrongAnswer(playerPool.CurrentPlayer);
             playerPool.CurrentPlayer.PutInPenaltyBox();
 
-            playerPool.NextPlayer();
             return true;
+        }
+
+        public void NextPlayer()
+        {
+            playerPool.NextPlayer();
         }
     }
 }
