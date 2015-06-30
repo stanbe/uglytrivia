@@ -2,7 +2,7 @@
 
 namespace Trivia
 {
-    class PlayerPool
+    public class PlayerPool
     {
         private readonly List<Player> players;
         private int currentPlayerIndex;

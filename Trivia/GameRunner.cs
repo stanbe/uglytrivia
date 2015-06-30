@@ -20,9 +20,15 @@ namespace Trivia
         {
             do
             {
-                game.Roll();
+                var roll = game.RollDice();
 
-                if (random.Next(9) == 7)
+                if (!game.IsPlayerStuckInPenaltyBox(roll))
+                {
+                    game.AdvancePlayer(roll);
+                    game.AskQuestion();
+			    }
+
+                if (ShouldAnswerWrong(random))
                 {
                     game.AnswerWrong();
                 }
@@ -35,7 +41,11 @@ namespace Trivia
 
             } while (!game.DidLastPlayerWin());
         }
-    }
 
+        private static bool ShouldAnswerWrong(Random random)
+        {
+            return random.Next(9) == 7;
+        }
+    }
 }
 

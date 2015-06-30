@@ -26,27 +26,38 @@ namespace Trivia
             return true;
         }
 
-        public void Roll()
+        public bool IsPlayerStuckInPenaltyBox(int roll)
         {
-            int roll = random.Next(5) + 1;
             var currentPlayer = playerPool.CurrentPlayer;
-            screen.PrintCurrentPlayer(currentPlayer);
-            screen.PrintRoll(roll);
-
             if (currentPlayer.InPenaltyBox)
             {
                 currentPlayer.SetGetOutOfPenaltyBox(roll);
                 screen.PrintWhetherPlayerIsGettingOutOfPenaltyBox(currentPlayer);
             }
-            if (currentPlayer.IsStuckInPenaltyBox)
-            {
-                return;
-            }
 
-            currentPlayer.AddPlace(roll);
-            screen.PrintNewLocationInfo(currentPlayer, playerPool.CurrentPlayer.CurrentCategory());
+            return currentPlayer.IsStuckInPenaltyBox;
+        }
+
+        public void AskQuestion()
+        {
             var question = questionPool.GetQuestion(playerPool.CurrentPlayer.CurrentCategory());
             screen.PrintQuestion(question);
+        }
+
+        public void AdvancePlayer(int roll)
+        {
+            var currentPlayer = playerPool.CurrentPlayer;
+            currentPlayer.AddPlace(roll);
+            screen.PrintNewLocationInfo(currentPlayer, currentPlayer.CurrentCategory());
+        }
+
+        public int RollDice()
+        {
+            var currentPlayer = playerPool.CurrentPlayer;
+            int roll = random.Next(5) + 1;
+            screen.PrintCurrentPlayer(currentPlayer);
+            screen.PrintRoll(roll);
+            return roll;
         }
 
         public void AnswerCorrect()
