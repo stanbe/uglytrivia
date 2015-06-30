@@ -8,11 +8,11 @@ namespace Trivia
         private readonly PlayerPool playerPool = new PlayerPool();
         private readonly QuestionPool questionPool = new QuestionPool();
 
-        private readonly TextWriter outputWriter;
+        private readonly Screen screen;
 
         public Game(TextWriter @out)
         {
-            outputWriter = @out;
+            screen = new Screen(@out);
         }
 
         public bool Add(String playerName)
@@ -20,28 +20,27 @@ namespace Trivia
             var player = new Player(playerName);
             playerPool.AddPlayer(player);
 
-            outputWriter.WriteLine(playerName + " was added");
-            outputWriter.WriteLine("They are player number " + playerPool.HowManyPlayers());
+            screen.PrintAddedPlayer(playerName, playerPool.HowManyPlayers());
             return true;
         }
 
         public void Roll(int roll)
         {
             var currentPlayer = playerPool.CurrentPlayer;
-            outputWriter.WriteLine(currentPlayer.Name + " is the current player");
-            outputWriter.WriteLine("They have rolled a " + roll);
+            screen.PrintCurrentPlayer(currentPlayer);
+            screen.PrintRoll(roll);
 
             if (currentPlayer.InPenaltyBox)
             {
                 currentPlayer.SetGetOutOfPenaltyBox(roll);
                 if (roll % 2 != 0)
                 {
-                    outputWriter.WriteLine(currentPlayer.Name + " is getting out of the penalty box");
+                    screen.PrintGettingOutOfPenaltyBox(currentPlayer);
                     AdvancePlayerAndAskQuestion(roll);
                 }
                 else
                 {
-                    outputWriter.WriteLine(currentPlayer.Name + " is not getting out of the penalty box");
+                    screen.PrintNotGettingOutOfPenaltyBox(currentPlayer);
                 }
             }
             else
@@ -56,18 +55,17 @@ namespace Trivia
             var currentPlayer = playerPool.CurrentPlayer;
             currentPlayer.AddPlace(roll);
 
-            outputWriter.WriteLine(currentPlayer.Name + "'s new location is " + currentPlayer.Place);
-            outputWriter.WriteLine("The category is " + CurrentCategory());
+            screen.PrintNewLocationInfo(currentPlayer, CurrentCategory());
             AskQuestion();
         }
 
         private void AskQuestion()
         {
             var question = questionPool.GetQuestion(CurrentCategory());
-            outputWriter.WriteLine(question);
+            screen.PrintQuestion(question);
         }
 
-        private QuestionCategory CurrentCategory()
+        public QuestionCategory CurrentCategory()
         {
             var place = playerPool.CurrentPlayer.Place;
 
@@ -91,11 +89,11 @@ namespace Trivia
 
         private bool AddPursesAndDidPlayerWin()
         {
-            outputWriter.WriteLine("Answer was correct!!!!");
             var currentPlayer = playerPool.CurrentPlayer;
             currentPlayer.AddPurse();
-            outputWriter.WriteLine(currentPlayer.Name + " now has " + currentPlayer.Purse + " Gold Coins.");
 
+            screen.PrintCorrectAnswer(currentPlayer);
+           
             bool notWinner = !currentPlayer.DidPlayerWin();
             playerPool.NextPlayer();
 
@@ -104,8 +102,7 @@ namespace Trivia
 
         public bool WrongAnswer()
         {
-            outputWriter.WriteLine("Question was incorrectly answered");
-            outputWriter.WriteLine(playerPool.CurrentPlayer.Name + " was sent to the penalty box");
+            screen.PrintWrongAnswer(playerPool.CurrentPlayer);
             playerPool.CurrentPlayer.PutInPenaltyBox();
 
             playerPool.NextPlayer();
