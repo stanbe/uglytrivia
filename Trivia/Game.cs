@@ -65,20 +65,13 @@ namespace Trivia
                 playerPool.NextPlayer();
                 return true;
             }
-            return AddPursesAndDidPlayerWin();
-        }
-
-        private bool AddPursesAndDidPlayerWin()
-        {
-            var currentPlayer = playerPool.CurrentPlayer;
             currentPlayer.AddPurse();
 
             screen.PrintCorrectAnswer(currentPlayer);
 
-            bool notWinner = !currentPlayer.DidPlayerWin();
             playerPool.NextPlayer();
 
-            return notWinner;
+            return !currentPlayer.DidPlayerWin();
         }
 
         public bool WrongAnswer()
