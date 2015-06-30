@@ -49,31 +49,31 @@ namespace Trivia
             screen.PrintQuestion(question);
         }
 
-        public bool WasCorrectlyAnswered()
+        public void AnswerCorrect()
         {
             var currentPlayer = playerPool.CurrentPlayer;
-            if (currentPlayer.IsStuckInPenaltyBox)
+            if (!currentPlayer.IsStuckInPenaltyBox)
             {
-                return true;
+                currentPlayer.AddPurse();
+
+                screen.PrintCorrectAnswer(currentPlayer);
             }
-            currentPlayer.AddPurse();
-
-            screen.PrintCorrectAnswer(currentPlayer);
-
-            return !currentPlayer.DidPlayerWin();
         }
 
-        public bool WrongAnswer()
+        public void AnswerWrong()
         {
             screen.PrintWrongAnswer(playerPool.CurrentPlayer);
             playerPool.CurrentPlayer.PutInPenaltyBox();
-
-            return true;
         }
 
         public void NextPlayer()
         {
             playerPool.NextPlayer();
+        }
+
+        public bool DidLastPlayerWin()
+        {
+            return playerPool.LastPlayer.DidPlayerWin();
         }
     }
 }

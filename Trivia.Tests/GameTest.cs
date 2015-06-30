@@ -13,7 +13,7 @@ namespace Trivia.Tests
             var outputStringWriter = new StringWriter {NewLine = "\n"};
             var aGame = new Game(outputStringWriter, new Random());
             aGame.Add("Chet");
-            aGame.WrongAnswer();
+            aGame.AnswerWrong();
             
             Assert.AreEqual("Chet was added\n" +
                             "They are player number 1\n" +
