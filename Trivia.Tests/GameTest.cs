@@ -11,7 +11,7 @@ namespace Trivia.Tests
         public void Test1()
         {
             var outputStringWriter = new StringWriter {NewLine = "\n"};
-            var aGame = new Game(outputStringWriter);
+            var aGame = new Game(outputStringWriter, new Random());
             aGame.Add("Chet");
             aGame.WrongAnswer();
             
@@ -26,12 +26,11 @@ namespace Trivia.Tests
         public void GameRunner1()
         {
             var outputStringWriter = new StringWriter {NewLine = "\n"};
-            var aGame = new Game(outputStringWriter);
+            var rand = new Random(1);
+            var aGame = new Game(outputStringWriter, rand);
             aGame.Add("Chet");
             aGame.Add("Pat");
             aGame.Add("Sue");
-
-            var rand = new Random(1);
 
             GameRunner.Run(aGame, rand);
 
@@ -160,11 +159,10 @@ namespace Trivia.Tests
         public void GameRunner2()
         {
             var outputStringWriter = new StringWriter {NewLine = "\n"};
-            var aGame = new Game(outputStringWriter);
+            var rand = new Random(3);
+            var aGame = new Game(outputStringWriter, rand);
             aGame.Add("Chet");
             aGame.Add("Pat");
-
-            var rand = new Random(3);
 
             GameRunner.Run(aGame, rand);
 

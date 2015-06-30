@@ -9,10 +9,12 @@ namespace Trivia
         private readonly QuestionPool questionPool = new QuestionPool();
 
         private readonly Screen screen;
+        private readonly Random random;
 
-        public Game(TextWriter @out)
+        public Game(TextWriter @out, Random random)
         {
             screen = new Screen(@out);
+            this.random = random;
         }
 
         public bool Add(String playerName)
@@ -24,8 +26,9 @@ namespace Trivia
             return true;
         }
 
-        public void Roll(int roll)
+        public void Roll()
         {
+            int roll = random.Next(5) + 1;
             var currentPlayer = playerPool.CurrentPlayer;
             screen.PrintCurrentPlayer(currentPlayer);
             screen.PrintRoll(roll);

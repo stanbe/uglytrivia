@@ -9,12 +9,11 @@ namespace Trivia
 
         public static void Main(String[] args)
         {
-            var aGame = new Game(Console.Out);
+            var random = new Random();
+            var aGame = new Game(Console.Out, random);
             aGame.Add("Chet");
             aGame.Add("Pat");
             aGame.Add("Sue");
-
-            var random = new Random();
 
             Run(aGame, random);
             Console.ReadLine();
@@ -24,7 +23,7 @@ namespace Trivia
         {
             do
             {
-                game.Roll(random.Next(5) + 1);
+                game.Roll();
 
                 if (random.Next(9) == 7)
                 {
