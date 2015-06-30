@@ -38,7 +38,7 @@ namespace Trivia
                 currentPlayer.SetGetOutOfPenaltyBox(roll);
                 screen.PrintWhetherPlayerIsGettingOutOfPenaltyBox(currentPlayer);
             }
-            if (currentPlayer.InPenaltyBox && !currentPlayer.IsGettingOUtOfPenaltyBox)
+            if (currentPlayer.IsStuckInPenaltyBox)
             {
                 return;
             }
@@ -52,7 +52,7 @@ namespace Trivia
         public bool WasCorrectlyAnswered()
         {
             var currentPlayer = playerPool.CurrentPlayer;
-            if (currentPlayer.InPenaltyBox && !currentPlayer.IsGettingOUtOfPenaltyBox)
+            if (currentPlayer.IsStuckInPenaltyBox)
             {
                 playerPool.NextPlayer();
                 return true;

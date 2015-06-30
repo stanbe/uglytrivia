@@ -46,5 +46,10 @@
             if (Place % 4 == 2) result = QuestionCategory.Sports;
             return result;
         }
+
+        public bool IsStuckInPenaltyBox
+        {
+            get { return InPenaltyBox && !IsGettingOUtOfPenaltyBox; }
+        }
     }
 }
