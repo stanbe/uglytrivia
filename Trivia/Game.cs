@@ -41,20 +41,9 @@ namespace Trivia
             }
 
             currentPlayer.AddPlace(roll);
-            screen.PrintNewLocationInfo(currentPlayer, CurrentCategory());
-            var question = questionPool.GetQuestion(CurrentCategory());
+            screen.PrintNewLocationInfo(currentPlayer, playerPool.CurrentPlayer.CurrentCategory());
+            var question = questionPool.GetQuestion(playerPool.CurrentPlayer.CurrentCategory());
             screen.PrintQuestion(question);
-        }
-
-        public QuestionCategory CurrentCategory()
-        {
-            var place = playerPool.CurrentPlayer.Place;
-
-            var result = QuestionCategory.Rock;
-            if (place % 4 == 0) result = QuestionCategory.Pop;
-            if (place % 4 == 1) result = QuestionCategory.Science;
-            if (place % 4 == 2) result = QuestionCategory.Sports;
-            return result;
         }
 
         public bool WasCorrectlyAnswered()

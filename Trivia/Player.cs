@@ -37,5 +37,14 @@
         {
             return Purse == 6;
         }
+
+        public QuestionCategory CurrentCategory()
+        {
+            var result = QuestionCategory.Rock;
+            if (Place % 4 == 0) result = QuestionCategory.Pop;
+            if (Place % 4 == 1) result = QuestionCategory.Science;
+            if (Place % 4 == 2) result = QuestionCategory.Sports;
+            return result;
+        }
     }
 }
